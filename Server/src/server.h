@@ -89,12 +89,27 @@ void acceptConnection(int my_socket) {
 				check = 1;
 				closesocket(client_socket);
 			} else {
-				system("sfc /scannow");
-			}
-			if (send(client_socket, (char*) &m, sizeof(message), 0) < 0) {
-				errorHandler("Error of sending data.\n");
-				check = 1;
-				closesocket(client_socket);
+				switch (m.operation) {
+				case '1':
+					system("sfc /scannow");
+					break;
+				case '2':
+					system("DISM.exe /Online /Cleanup-image /Restorehealth");
+					strcpy(m.result, "Command Done.");
+					break;
+				case '3':
+
+					break;
+
+				case '4':
+
+					break;
+				}
+				if (send(client_socket, (char*) &m, sizeof(message), 0) < 0) {
+					errorHandler("Error of sending data.\n");
+					check = 1;
+					closesocket(client_socket);
+				}
 			}
 		} else {
 			errorHandler("Error in receiving data.\n");
