@@ -92,6 +92,7 @@ void acceptConnection(int my_socket) {
 				switch (m.operation) {
 				case '1':
 					system("sfc /scannow");
+					strcpy(m.result, "Command Done.");
 					break;
 				case '2':
 					system("DISM.exe /Online /Cleanup-image /Restorehealth");
