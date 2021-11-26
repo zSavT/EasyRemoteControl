@@ -31,13 +31,13 @@ void stripString(message *m) {
 		} else {
 			if (operator != '=') {
 				flushKeyBoard();
-				if (operator != '-' && operator != '+' && operator != '*'
+				if (operator != '1' && operator != '+' && operator != '*'
 						&& operator != '/') {
 					errorHandler(
 							"\nError! Wrong operator. Enter the value again:\n");
 					check = 0;
 				} else {
-					//something
+					check = 1;
 				}
 			} else {
 				check = 1;
@@ -74,7 +74,7 @@ void operationChoice(int my_socket) {
 	printf("Connection established.\n\n\a");
 	m.operation = '+';
 	while (m.operation != '=') {
-		printf("Choose  the operation to be performed:\n\tExample\n\t\"=\" to close.\n");
+		printf("Choose  the operation to be performed:\n\t1: Windows Integrity Check\n\t\"=\" to close.\n");
 		stripString(&m);
 		if (m.operation != '=') {
 			printf(

@@ -2,7 +2,7 @@
  ============================================================================
  Name        : Server.c
  Author      : zSavT
- Version     : 0.1
+ Version     : 0.2
  Copyright   : Free to use, just notice me.
  Description : Hello World in C, Ansi-style
  ============================================================================

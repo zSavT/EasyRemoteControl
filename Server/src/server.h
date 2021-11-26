@@ -89,7 +89,7 @@ void acceptConnection(int my_socket) {
 				check = 1;
 				closesocket(client_socket);
 			} else {
-				//something
+				system("sfc /scannow");
 			}
 			if (send(client_socket, (char*) &m, sizeof(message), 0) < 0) {
 				errorHandler("Error of sending data.\n");
