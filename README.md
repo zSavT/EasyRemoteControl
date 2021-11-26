@@ -1,3 +1,7 @@
 # EasyRemoteControl
-My simple program for remote PC control to start very simple tasks.
+My simple program for remote PC control to start very simple tasks.<br>
+
+With this program we can choose a series of commands to be executed by the Server. Eventually passing also an entire string containing the command to be executed (To evaluate this option).
+
+<p>
 The code will always be in english.
