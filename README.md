@@ -12,7 +12,7 @@ You can see documentation right [here!](https://github.com/zSavT/EasyRemoteContr
 ## Directory
 
 `
-\---EasyRemoteControl-main
+\---EasyRemoteControl-main<br>
     |   .gitignore
     |   LICENSE
     |   README.md
