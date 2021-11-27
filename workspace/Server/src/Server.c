@@ -13,28 +13,37 @@
 /* Program execution */
 int main(int argc, char *argv[]) {
 
-#if defined WIN32
-	// Initialize Winsock for Windows
-	WSADATA wsa_data;
-	int result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
-	if (result != NO_ERROR) {
-		errorHandler("Error at WSAStartup().\n");
+	if (IsElevated() == FALSE) {
+		printf(
+				"Please start the program as an administrator to unlock all its features.\n");
+		system("pause");
 		return -1;
-	}
+	} else {
+
+#if defined WIN32
+		// Initialize Winsock for Windows
+		WSADATA wsa_data;
+		int result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
+		if (result != NO_ERROR) {
+			errorHandler("Error at WSAStartup().\n");
+			return -1;
+		}
 #endif
 
-	int my_socket = 0;
-	my_socket = socketCreation(argc, argv);
-	if (my_socket < 0) {
-		errorHandler("Socket creation failed.\n");
-		closeAndCleanSocket(&my_socket);
-		return -1;
+		int my_socket = 0;
+		my_socket = socketCreation(argc, argv);
+		if (my_socket < 0) {
+			errorHandler("Socket creation failed.\n");
+			closeAndCleanSocket(&my_socket);
+			return -1;
+		}
+		while (1) {
+			acceptConnection(my_socket);
+		}
+		system("pause");
+		return 0;
+
 	}
-	while (1) {
-		acceptConnection(my_socket);
-	}
-	system("pause");
-	return 0;
 
 } // main end
 
