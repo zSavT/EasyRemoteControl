@@ -5,5 +5,9 @@ We can switch from command line to program startup IP address and port (both cli
 
 With this program we can choose a series of commands to be executed by the Server. Eventually passing also an entire string containing the command to be executed (To evaluate this option).
 
+## Documentation
+
+You can see documentation right [here!](https://github.com/zSavT/EasyRemoteControl/blob/main/doc/NOTE.md)
+
 <p>
 The code will always be in english.
