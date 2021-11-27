@@ -38,7 +38,6 @@ You can see documentation right [here!](https://github.com/zSavT/EasyRemoteContr
                     client_server_structure.h
                     Server.c
                     server.h
-
 ```
 
 <p>
