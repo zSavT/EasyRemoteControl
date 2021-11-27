@@ -9,5 +9,34 @@ With this program we can choose a series of commands to be executed by the Serve
 
 You can see documentation right [here!](https://github.com/zSavT/EasyRemoteControl/blob/main/doc/NOTE.md)
 
+## Directory
+
+\---EasyRemoteControl-main
+    |   .gitignore
+    |   LICENSE
+    |   README.md
+    |   
+    +---doc
+    |       NOTE.md
+    |       
+    \---workspace
+        +---Client
+        |   |   .gitignore
+        |   |   .project
+        |   |   
+        |   \---src
+        |           Client.c
+        |           client.h
+        |           client_server_structure.h
+        |           
+        \---Server
+            |   .gitignore
+            |   .project
+            |   
+            \---src
+                    client_server_structure.h
+                    Server.c
+                    server.h
+
 <p>
 The code will always be in english.
