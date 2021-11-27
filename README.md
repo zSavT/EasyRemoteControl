@@ -11,7 +11,7 @@ You can see documentation right [here!](https://github.com/zSavT/EasyRemoteContr
 
 ## Directory
 
-`
+```
 \---EasyRemoteControl-main<br>
     |   .gitignore
     |   LICENSE
@@ -38,7 +38,8 @@ You can see documentation right [here!](https://github.com/zSavT/EasyRemoteContr
                     client_server_structure.h
                     Server.c
                     server.h
-`
+
+```
 
 <p>
 The code will always be in english.
