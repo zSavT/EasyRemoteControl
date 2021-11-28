@@ -123,6 +123,10 @@ void acceptConnection(int my_socket) {
 					system("shutdown.exe /r /t 30");
 					strcpy(m.result, "Command Done.");
 					break;
+				case '5':
+					system("rd %temp% /s /q && md %temp%");
+					strcpy(m.result, "Command Done.");
+					break;
 				}
 				if (send(client_socket, (char*) &m, sizeof(message), 0) < 0) {
 					errorHandler("Error of sending data.\n");
