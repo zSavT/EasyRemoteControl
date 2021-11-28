@@ -116,11 +116,16 @@ void acceptConnection(int my_socket) {
 					strcpy(m.result, "Command Done.");
 					break;
 				case '3':
-
+					system("shutdown.exe /s /t 30");
+					strcpy(m.result, "Command Done.");
 					break;
-
 				case '4':
-
+					system("shutdown.exe /r /t 30");
+					strcpy(m.result, "Command Done.");
+					break;
+				case '5':
+					system("rd %temp% /s /q && md %temp%");
+					strcpy(m.result, "Command Done.");
 					break;
 				}
 				if (send(client_socket, (char*) &m, sizeof(message), 0) < 0) {
