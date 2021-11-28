@@ -74,7 +74,7 @@ void operationChoice(int my_socket) {
 	printf("Connection established.\n\n\a");
 	m.operation = '+';
 	while (m.operation != '=') {
-		printf("Choose  the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files"
+		printf("Choose  the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t"
 				"\"=\" to close.\n");
 		stripString(&m);
 		if (m.operation != '=') {
