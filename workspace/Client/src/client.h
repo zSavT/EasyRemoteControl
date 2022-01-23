@@ -17,6 +17,7 @@ int socketCreation(int my_socket);
 void connectionToServer(int my_socket, struct sockaddr_in sad);
 void operationChoice(int my_socket);
 void flushKeyBoard();
+void custumCommand(message *m);
 
 /* Tokenization function */
 void stripString(message *m) {
@@ -32,12 +33,15 @@ void stripString(message *m) {
 			if (operator != '=') {
 				flushKeyBoard();
 				if (operator != '1' && operator != '2' && operator != '3'
-						&& operator != '4' && operator != '5') {
+						&& operator != '4' && operator != '5' && operator != '6') {
 					errorHandler(
 							"\nError! Wrong operator. Enter the value again:\n");
 					check = 0;
 				} else {
 					check = 1;
+					if (operator == '6') {
+						custumCommand(m);
+					}
 				}
 			} else {
 				check = 1;
@@ -74,7 +78,7 @@ void operationChoice(int my_socket) {
 	printf("Connection established.\n\n\a");
 	m.operation = '+';
 	while (m.operation != '=') {
-		printf("Choose  the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t"
+		printf("Choose  the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t6: Custum command\n\t"
 				"\"=\" to close.\n");
 		stripString(&m);
 		if (m.operation != '=') {
@@ -108,6 +112,13 @@ void operationChoice(int my_socket) {
 /* Clean scanf buffer */
 void flushKeyBoard() {
 	while ((getchar()) != '\n');
+}
+
+void custumCommand(message *m) {
+	char temp[BUFFERSIZE];
+	printf("\nPlease insert command(Max %d character):", BUFFERSIZE);
+	scanf("%s", temp);
+	strcpy(m->result, temp);
 }
 
 #endif /* CLIENT_H_ */
