@@ -8,7 +8,7 @@ You can start both the server and the client in the following ways.
 - Start the program from command line by passing as IP address and port parameters.
 - Start the program from the command line passing only the IP address, in this case the port will be the default one.
 
-É possibile cambiare IP e la porta di default nel file "_client_server_structure.h_".
+It is possible to change the IP and the default port in the file "_client_server_structure.h_".
 
 ## Client
 
