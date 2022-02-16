@@ -128,7 +128,7 @@ void acceptConnection(int my_socket) {
 					strcpy(m.result, "Command Done.");
 					break;
 				case '6':
-					system(m.result);
+					system(m.customMessage);
 					strcpy(m.result, "Command Done.");
 					break;
 				}
