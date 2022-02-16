@@ -118,7 +118,7 @@ void custumCommand(message *m) {
 	char temp[BUFFERSIZE];
 	printf("\nPlease insert command(Max %d character):", BUFFERSIZE);
 	scanf("%s", temp);
-	strcpy(m->result, temp);
+	strcpy(m->customMessage, temp);
 }
 
 #endif /* CLIENT_H_ */
