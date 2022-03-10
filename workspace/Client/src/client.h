@@ -27,13 +27,12 @@ void stripString(message *m) {
 		scanf("%c", &operator);
 		if (operator == '\n') {
 			check = 0;
-			errorHandler(
-					"Operation not allowed. Enter the value again:\n");
+			errorHandler("Operation not allowed. Enter the value again:\n");
 		} else {
 			if (operator != '=') {
 				flushKeyBoard();
 				if (operator != '1' && operator != '2' && operator != '3'
-						&& operator != '4' && operator != '5' && operator != '6') {
+				&& operator != '4' && operator != '5' && operator != '6') {
 					errorHandler(
 							"\nError! Wrong operator. Enter the value again:\n");
 					check = 0;
@@ -47,8 +46,8 @@ void stripString(message *m) {
 				check = 1;
 			}
 		}
-		m->operation = operator;
-	}
+	m->operation = operator;
+}
 }
 
 /* Socket creation */
@@ -78,12 +77,12 @@ void operationChoice(int my_socket) {
 	printf("Connection established.\n\n\a");
 	m.operation = '+';
 	while (m.operation != '=') {
-		printf("Choose  the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t6: Custum command\n\t"
-				"\"=\" to close.\n");
+		printf(
+				"Choose the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t6: Custum command\n\t"
+						"\"=\" to close.\n");
 		stripString(&m);
 		if (m.operation != '=') {
-			printf(
-					"\nYou have entered the following values:\n Operation = %c\n",
+			printf("\nYou have entered the following values:\n Operation = %c\n",
 					m.operation);
 			if (send(my_socket, (char*) &m, sizeof(message), 0) < 0) {
 				errorHandler("Error of sending data.\n");
@@ -116,8 +115,18 @@ void flushKeyBoard() {
 
 void custumCommand(message *m) {
 	char temp[BUFFERSIZE];
-	printf("\nPlease insert command(Max %d character):", BUFFERSIZE);
-	scanf("%s", temp);
+	memset(&temp, '\0', sizeof(temp));
+	BOOL check = FALSE;
+	while (check == FALSE) {
+		printf("\nInsert your custom message. Max 510 characters\n --> ");
+			scanf("%510s", temp);
+			if ((int) strlen(temp) > 510) {
+				printf("\nError, string too long.");
+				memset(temp, '\0', sizeof(temp));
+		} else {
+			check = TRUE;
+		}
+	}
 	strcpy(m->customMessage, temp);
 }
 
