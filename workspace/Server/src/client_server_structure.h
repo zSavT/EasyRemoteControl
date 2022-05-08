@@ -35,6 +35,7 @@
 typedef struct {
 	char operation;
 	char result[BUFFERSIZE];
+	char customMessage[BUFFERSIZE];
 }message;
 
 // Declarations of functions
