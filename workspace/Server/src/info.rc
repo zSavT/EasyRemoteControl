@@ -1,0 +1,23 @@
+1 VERSIONINFO
+FILEVERSION     1,0,0,1
+PRODUCTVERSION  1,0,0,1
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "CompanyName", "SavT"
+      VALUE "FileDescription", "Make controllable your pc remote"
+      VALUE "FileVersion", "Alpha v0.0.5"
+      VALUE "InternalName", "EasyRemoteControl"
+      VALUE "LegalCopyright", "SavT"
+      VALUE "OriginalFilename", "EasyRemoteControlServer.exe"
+      VALUE "ProductName", "EasyRemoteControl"
+      VALUE "ProductVersion", "Alpha v0.0.5"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x809, 1252
+  END
+END
