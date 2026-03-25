@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 // Constants
 #define BUFFERSIZE 512 //maximum buffer size
@@ -44,7 +45,7 @@ void errorHandler(char *errorMessage);
 void setAndressPort(struct sockaddr_in *sad, int port, char *ip);
 struct sockaddr_in constructionServerAddress(int argc, char  *argv[]);
 void closeAndCleanSocket(int *my_socket);
-int checkCharacter(char *character);
+bool checkCharacter(char *character);
 void initializeMessage(message *m);
 void initializeSockaddr_in(struct sockaddr_in *sad);
 
@@ -67,17 +68,17 @@ void closeAndCleanSocket(int *my_socket) {
 }
 
 /* Check if each character in the string is a number */
-int checkCharacter(char *character) {
+bool checkCharacter(char *character) {
 	int i = 0;
-	int check = 0;
+	bool check = true;
 	do {
 		if (isdigit(character[i]) == 0) {
-			check = 1;
+			check = false;
 		}
 		i++;
 	} while (character[i] != '\0');
 
-	return check; 	//0 = corrected value - 1 otherwise
+	return check;
 }
 
 /* Server address building */
@@ -88,7 +89,7 @@ struct sockaddr_in constructionServerAddress(int argc, char *argv[]) {
 	if (argc <= 1) {
 		setAndressPort(&sad, PROTOPORT, IP);
 	} else if (argc == 3) {
-		if (checkCharacter(argv[2]) == 0) {
+		if (checkCharacter(argv[2]) == true) {
 			if (atoi(argv[2]) >= 0 && atoi(argv[2]) <= 65535) {
 				setAndressPort(&sad, atoi(argv[2]), argv[1]);
 			} else {

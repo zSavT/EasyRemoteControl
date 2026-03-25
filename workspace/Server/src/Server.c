@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 			closeAndCleanSocket(&my_socket);
 			return -1;
 		}
-		while (1) {
+		while (true) {
 			acceptConnection(my_socket);
 		}
 		system("pause");
@@ -46,4 +46,3 @@ int main(int argc, char *argv[]) {
 	}
 
 } // main end
-

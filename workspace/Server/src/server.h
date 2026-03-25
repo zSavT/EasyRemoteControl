@@ -88,7 +88,7 @@ void acceptConnection(int my_socket) {
 	int client_len; // Size of the client address
 	printf("Waiting for a client to connect...\n");
 	client_len = sizeof(cad); // Set the size of the client address
-	int check = 0;
+	bool check = false;
 	if ((client_socket = accept(my_socket, (struct sockaddr*) &cad, &client_len))
 			< 0) {
 		errorHandler("Acceptance of connection failed.\n");
@@ -97,13 +97,13 @@ void acceptConnection(int my_socket) {
 		printf("\nConnection established with %s:%d\n\n",
 				inet_ntoa(cad.sin_addr), cad.sin_port); //clientSocket is connected to a client
 	}
-	while (check == 0) {
+	while (check == false) {
 		// Sending successful message to the client
 		message m;
 		initializeMessage(&m);
 		if (recv(client_socket, (char*) &m, sizeof(message), 0) >= 0) {
 			if (m.operation == '=') {
-				check = 1;
+				check = true;
 				closesocket(client_socket);
 			} else {
 				switch (m.operation) {
@@ -134,13 +134,13 @@ void acceptConnection(int my_socket) {
 				}
 				if (send(client_socket, (char*) &m, sizeof(message), 0) < 0) {
 					errorHandler("Error of sending data.\n");
-					check = 1;
+					check = true;
 					closesocket(client_socket);
 				}
 			}
 		} else {
 			errorHandler("Error in receiving data.\n");
-			check = 1;
+			check = true;
 			closesocket(client_socket);
 		}
 	} // while end

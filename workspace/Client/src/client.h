@@ -22,11 +22,11 @@ void custumCommand(message *m);
 /* Tokenization function */
 void stripString(message *m) {
 	char operator;
-	short check = 0;
-	while (check == 0) {
+	bool check = false;
+	while (check == false) {
 		scanf("%c", &operator);
 		if (operator == '\n') {
-			check = 0;
+			check = false;
 			errorHandler("Operation not allowed. Enter the value again:\n");
 		} else {
 			if (operator != '=') {
@@ -35,15 +35,15 @@ void stripString(message *m) {
 				&& operator != '4' && operator != '5' && operator != '6') {
 					errorHandler(
 							"\nError! Wrong operator. Enter the value again:\n");
-					check = 0;
+					check = false;
 				} else {
-					check = 1;
+					check = true;
 					if (operator == '6') {
 						custumCommand(m);
 					}
 				}
 			} else {
-				check = 1;
+				check = true;
 			}
 		}
 	m->operation = operator;
@@ -116,15 +116,15 @@ void flushKeyBoard() {
 void custumCommand(message *m) {
 	char temp[BUFFERSIZE];
 	memset(&temp, '\0', sizeof(temp));
-	BOOL check = FALSE;
-	while (check == FALSE) {
+	bool check = false;
+	while (check == false) {
 		printf("\nInsert your custom message. Max 510 characters\n --> ");
 			scanf("%510s", temp);
 			if ((int) strlen(temp) > 510) {
 				printf("\nError, string too long.");
 				memset(temp, '\0', sizeof(temp));
 		} else {
-			check = TRUE;
+			check = true;
 		}
 	}
 	strcpy(m->customMessage, temp);
