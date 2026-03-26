@@ -1,9 +1,15 @@
 # EasyRemoteControl
-My simple program for remote PC control to start very simple tasks.<br>
+EasyRemoteControl is a lightweight tool designed for basic remote PC management and task execution.
 
-We can switch from command line to program startup IP address and port (both client and server side).<br>
+Educational Purpose Only: This repository was created solely for learning and educational purposes. It is not intended for use in production environments.
 
-With this program we can choose a series of commands to be executed by the Server. Eventually passing also an entire string containing the command to be executed (To evaluate this option).
+## Features
+​Configurable Connection: Easily specify the IP address and port for both the client and server directly via command-line arguments at startup.
+​Remote Task Execution: Choose from a predefined series of commands to be executed on the server side.
+​Flexible Commands (Experimental): Support for passing full command strings for remote execution (currently under evaluation).
+
+## ​How it Works
+​The program establishes a connection between a client and a server. Once connected, the client can trigger specific operations on the host machine, making it a simple way to automate or manage basic tasks remotely.
 
 ## Documentation
 
