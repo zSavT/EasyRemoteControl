@@ -15,20 +15,8 @@
 #define QLEN 5 // size of request queue
 
 // Declarations of functions
-int checkConnection(int my_socket);
-int socketCreation(int argc, char *argv[]);
+AppErrorCode socketCreation(int argc, char *argv[], int *sock_out);
 void acceptConnection(int my_socket);
-
-/* Check connection for listening */
-int checkConnection(int my_socket) {
-	if (listen(my_socket, QLEN) < 0) {
-		errorHandler("Listen() failed.\n");
-		closeAndCleanSocket(&my_socket);
-		return -1;
-	} else {
-		return my_socket;
-	}
-}
 
 /*Check if the program has been started as an administrator */
 BOOL IsElevated( ) {
@@ -48,35 +36,36 @@ BOOL IsElevated( ) {
 }
 
 /* Socket creation */
-int socketCreation(int argc, char *argv[]) {
+AppErrorCode socketCreation(int argc, char *argv[], int *sock_out) {
 	// Socket creation
-	int my_socket;
-	my_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (my_socket < 0) {
+	*sock_out = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (*sock_out < 0) {
 		errorHandler("Socket creation failed.\n");
-		closeAndCleanSocket(&my_socket);
-		return -1;
-	} else {
-
-		// Construction of the server address:
-
-		struct sockaddr_in sad;
-
-		sad.sin_family = AF_INET;
-		// Address assignment to the socket
-		sad = constructionServerAddress(argc, argv);
-
-		if (bind(my_socket, (struct sockaddr*) &sad, sizeof(sad)) < 0) {
-			errorHandler("Error with bind().\n");
-			closeAndCleanSocket(&my_socket);
-			return -1;
-		} else {
-
-			// Socket setting
-			my_socket = checkConnection(my_socket);
-			return my_socket;
-		}
+		return SOCKET_CREATION_FAILURE;
 	}
+
+	// Construction of the server address:
+	struct sockaddr_in sad;
+
+	// Address assignment to the socket
+	if (constructionServerAddress(argc, argv, &sad) != APP_SUCCESS) {
+		closesocket(*sock_out);
+		return INVALID_PORT;
+	}
+
+	if (bind(*sock_out, (struct sockaddr*) &sad, sizeof(sad)) < 0) {
+		errorHandler("Error with bind().\n");
+		closesocket(*sock_out);
+		return SOCKET_BIND_FAILURE;
+	}
+
+	// Socket setting for listening
+	if (listen(*sock_out, QLEN) < 0) {
+		errorHandler("Listen() failed.\n");
+		closesocket(*sock_out);
+		return SOCKET_LISTEN_FAILURE;
+	}
+	return APP_SUCCESS;
 }
 
 /* Interaction with the client */
@@ -91,8 +80,7 @@ void acceptConnection(int my_socket) {
 	bool check = false;
 	if ((client_socket = accept(my_socket, (struct sockaddr*) &cad, &client_len))
 			< 0) {
-		errorHandler("Acceptance of connection failed.\n");
-		closesocket(client_socket);
+		errorHandler("Acceptance of connection failed.\n"); // Do not close an invalid socket
 	} else {
 		printf("\nConnection established with %s:%d\n\n",
 				inet_ntoa(cad.sin_addr), cad.sin_port); //clientSocket is connected to a client

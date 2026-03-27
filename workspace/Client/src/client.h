@@ -13,9 +13,9 @@
 
 // Declarations of functions
 void stripString(message *m);
-int socketCreation(int my_socket);
-void connectionToServer(int my_socket, struct sockaddr_in sad);
-void operationChoice(int my_socket);
+AppErrorCode socketCreation(int *sock_out);
+AppErrorCode connectionToServer(int my_socket, struct sockaddr_in sad);
+AppErrorCode operationChoice(int my_socket);
 void flushKeyBoard();
 void custumCommand(message *m);
 
@@ -51,57 +51,50 @@ void stripString(message *m) {
 }
 
 /* Socket creation */
-int socketCreation(int my_socket) {
-	my_socket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (my_socket < 0) {
+AppErrorCode socketCreation(int *sock_out) {
+	*sock_out = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (*sock_out < 0) {
 		errorHandler("Socket creation failed.\n");
-		closeAndCleanSocket(&my_socket);
-		return -1;
+		return SOCKET_CREATION_FAILURE;
 	}
-	return my_socket;
+	return APP_SUCCESS;
 }
 
 /* Function for connecting to the socket */
-void connectionToServer(int my_socket, struct sockaddr_in sad) {
+AppErrorCode connectionToServer(int my_socket, struct sockaddr_in sad) {
 	if (connect(my_socket, (struct sockaddr*) &sad, sizeof(sad)) < 0) {
 		errorHandler("Failed to connect.\n");
-		closeAndCleanSocket(&my_socket);
-		exit(-1);
+		return SOCKET_CONNECT_FAILURE;
 	}
+	return APP_SUCCESS;
 }
 
 /*   Choice of operation and insertion of values */
-void operationChoice(int my_socket) {
+AppErrorCode operationChoice(int my_socket) {
 	message m;
 	initializeMessage(&m);
 	printf("Connection established.\n\n\a");
 	m.operation = '+';
 	while (m.operation != '=') {
 		printf(
-				"Choose the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t6: Custum command\n\t"
-						"\"=\" to close.\n");
+				"Choose the operation to be performed:\n\t1: Windows Integrity Check\n\t2: Windows Image Integrity Check\n\t3: Shutdown Remote PC\n\t4: Restart Remote PC\n\t5: Delete Temp Files\n\t6: Custum command\n\t" "\"=\" to close.\n");
 		stripString(&m);
 		if (m.operation != '=') {
 			printf("\nYou have entered the following values:\n Operation = %c\n",
 					m.operation);
 			if (send(my_socket, (char*) &m, sizeof(message), 0) < 0) {
 				errorHandler("Error of sending data.\n");
-				closeAndCleanSocket(&my_socket);
-				system("pause");
-				exit(1);
+				return SEND_FAILURE;
 			}
-			if (recv(my_socket, (char*) &m, sizeof(message), 0) >= 0) {
-				printf(" Result: %s\n\n", m.result);
-			} else {
+			if (recv(my_socket, (char*) &m, sizeof(message), 0) < 0) {
 				errorHandler("Error in receiving data.\n");
-				closeAndCleanSocket(&my_socket);
+				return RECV_FAILURE;
 			}
+			printf(" Result: %s\n\n", m.result);
 		} else {
 			if (send(my_socket, (char*) &m, sizeof(message), 0) < 0) {
 				errorHandler("Error of sending data.\n");
-				closeAndCleanSocket(&my_socket);
-				system("pause");
-				exit(1);
+				return SEND_FAILURE;
 			}
 			printf("\nClosing...");
 		}

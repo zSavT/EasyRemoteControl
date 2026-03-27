@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 		printf(
 				"Please start the program as an administrator to unlock all its features.\n");
 		system("pause");
-		return -1;
+		return NOT_ELEVATED;
 	} else {
 
 #if defined WIN32
@@ -26,22 +26,21 @@ int main(int argc, char *argv[]) {
 		int result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
 		if (result != NO_ERROR) {
 			errorHandler("Error at WSAStartup().\n");
-			return -1;
+			return WSA_STARTUP_FAILURE;
 		}
 #endif
 
 		int my_socket = 0;
-		my_socket = socketCreation(argc, argv);
-		if (my_socket < 0) {
-			errorHandler("Socket creation failed.\n");
-			closeAndCleanSocket(&my_socket);
-			return -1;
+		AppErrorCode err = socketCreation(argc, argv, &my_socket);
+		if (err != APP_SUCCESS) {
+			clearWinsock();
+			return err;
 		}
 		while (true) {
 			acceptConnection(my_socket);
 		}
 		system("pause");
-		return 0;
+		return APP_SUCCESS;
 
 	}
 
